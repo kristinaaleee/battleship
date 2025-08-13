@@ -48,7 +48,18 @@ class Gameboard {
             axis == 'y' ? y += i : x += i;
             space = this.getSpace(x, y);
             space.ship = true;
-            space['occupant'] = shipObject;
+            space.occupant = shipObject;
         }
+    }
+    recieveAttack(x, y){
+        let space = this.getSpace(x, y);
+
+        if (space.selected === true) return 'Error: Space already selected'
+
+        if (space.ship === true) {
+            space.occupant.hitFunction();
+            space.occupant.isSunk();
+        }
+        space.selected = true
     }
 }
