@@ -1,4 +1,4 @@
-export { Ship, Gameboard };
+export { Ship, Gameboard, Player };
 
 class Ship {
     constructor(length){
@@ -70,5 +70,13 @@ class Gameboard {
             }
         }
         return true;
+    }
+}
+
+class Player {
+    constructor(type){
+        // Computer or Human
+        this.type = type
+        this.board = new Gameboard();
     }
 }
