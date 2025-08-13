@@ -2,7 +2,6 @@ export { Ship, Gameboard, Player };
 
 class Ship {
     constructor(length){
-        //defined later
         this.length = length
         this.hits = 0
         this.sunk = false;
@@ -16,15 +15,13 @@ class Ship {
     }
 }
 
-// 10x10 gameboard
-
+// 10x10 gameboard (0 to 9 coordinates)
 class Gameboard {
     constructor(){
         // Building using the index of empty array
         // _ indicates unsused variable (value)
         this.board = Array.from({ length: 10 }, (_, y) => 
                         Array.from({ length: 10 }, (_, x) => ({x, y, ship: false, selected: false})))
-        // 0 to 9 coordinates
     }
 
     getSpace(x, y){
