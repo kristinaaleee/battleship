@@ -26,9 +26,10 @@ class Gameboard {
                         Array.from({ length: 10 }, (_, x) => ({x, y, ship: false, selected: false})))
     }
 
-//     placeShip(x, y, axis, length){
-//         this.board[]
-//     }
+    getCell(x, y){
+        return this.board[y]?.[x] ?? null;
+    }
+    placeShip(x, y, axis, length){
+        this.board[]
+    }
 }
-let grid = new Gameboard();
-console.log(grid)
