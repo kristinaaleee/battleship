@@ -62,4 +62,13 @@ class Gameboard {
         }
         space.selected = true
     }
+    allSunk(){
+        for (const row of this.board){
+            let ships = row.filter(space => "occupant" in space)
+            for (const element of ships){
+                if (element.occupant.sunk === false) return false;
+            }
+        }
+        return true;
+    }
 }

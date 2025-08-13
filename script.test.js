@@ -40,3 +40,19 @@ test('attack function miss', () => {
     board.recieveAttack(1, 1)
     expect(board.getSpace(1, 1)).toEqual({x: 1, y: 1, ship: false, selected: true});
 })
+test('all ships sunk', () => {
+    let board = new Gameboard();
+    board.placeShip(0, 0, 'x', 2)
+    board.recieveAttack(0, 0)
+    board.recieveAttack(1, 0)
+    expect(board.allSunk()).toBe(true);
+})
+test('some unsunk ships', () => {
+    let board = new Gameboard();
+    board.placeShip(0, 0, 'x', 2)
+    board.recieveAttack(0, 0)
+    board.recieveAttack(1, 0)
+    board.placeShip(3, 3, 'x', 3)
+    expect(board.allSunk()).toBe(false);
+})
+
