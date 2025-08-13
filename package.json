@@ -1,0 +1,23 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "main": "babel.config.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristinaaleee/battleship.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristinaaleee/battleship/issues"
+  },
+  "homepage": "https://github.com/kristinaaleee/battleship#readme",
+  "description": "",
+  "devDependencies": {
+    "jest": "^30.0.5"
+  }
+}
