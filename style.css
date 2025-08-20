@@ -1,5 +1,26 @@
+#container{
+    display: flex;
+    justify-content: space-around;
+}
 .square{
-    height: 10px;
-    width: 10px;
+    width: 30px;
+    height: 30px;
     border: black solid 2px;
+    cursor: pointer;
+}
+#board-wrapper{
+    width: fit-content;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+.hit{
+    background-color: red;
+}
+.miss{
+    background-color: blue;
+}
+.ship{
+    background-color: black;
 }
