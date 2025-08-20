@@ -42,10 +42,10 @@ class Gameboard {
         let shipObject = new Ship(length);
 
         for (let i = 0; i < length; i++){
-            axis == 'y' ? y += i : x += i;
             space = this.getSpace(x, y);
             space.ship = true;
             space.occupant = shipObject;
+            axis == 'y' ? y += 1 : x += 1;
         }
     }
     recieveAttack(x, y){
@@ -71,9 +71,9 @@ class Gameboard {
 }
 
 class Player {
-    constructor(type){
+    constructor(name){
         // Computer or Human
-        this.type = type
+        this.name = name
         this.board = new Gameboard();
     }
 }
