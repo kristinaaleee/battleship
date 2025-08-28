@@ -51,7 +51,7 @@ class Gameboard {
     recieveAttack(x, y){
         let space = this.getSpace(x, y);
 
-        if (space.selected === true) return 'Error: Space already selected'
+        if (space.selected === true) return 'Error'
 
         if (space.ship === true) {
             space.occupant.hitFunction();
