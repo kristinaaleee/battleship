@@ -1,8 +1,40 @@
 import { Player } from './script.js'
-import { Board, GameOver } from './game.js'
+import { Board, GameOver, Form } from './game.js'
 
-// make friendly
-const friend = new Player('friend');
+const container = document.getElementById('container');
+const form = Form()
+let input = form[0]
+let submitButton = form[1]
+container.appendChild(form)
+
+console.log(form)
+console.log(name)
+console.log(submitButton)
+
+// Submit with enter
+input.addEventListener('keypress', (event) =>{
+    if (event.key === 'Enter'){
+        submitButton.click();
+    }
+})
+
+// Attach input to player name
+submitButton.addEventListener('click', () => {
+    // Rename player
+    friend.name = input.value
+
+    // Next Page
+    container.removeChild(form);
+
+    // need to add in between page for placing ships
+
+    container.appendChild(friendBoard)
+    container.appendChild(enemyBoard);
+
+})
+
+// need player made only after first submit button. 
+const friend = new Player(`placeholder`);
 friend.board.placeShip(4, 4, 'x', 3);
 friend.board.placeShip(0, 0, 'y', 5);
 
@@ -11,17 +43,11 @@ const enemy = new Player('enemy');
 enemy.board.placeShip(1, 1, 'x', 2);
 enemy.board.placeShip(9, 0, 'y', 4);
 
-
-const container = document.getElementById('container');
-
 // initialize friend/enemy board
 const friendBoard = Board();
 friendBoard.classList.add('friendly');
 const enemyBoard = Board();
 enemyBoard.classList.add('enemy');
-
-container.appendChild(friendBoard);
-container.appendChild(enemyBoard);
 
 // build board visual
 const friendSquares = friendBoard.childNodes;
@@ -34,30 +60,35 @@ friend.board.board.forEach((row) => {
     })
 })
 
+//adds delay between turns
+let canTrigger = true;
 // build board with event listeners
 const enemySquares = enemyBoard.childNodes;
 enemySquares.forEach((square, index) => {
     square.addEventListener('click', () =>{
-        // fix time delay to not allow overlap with computer
-        let [x, y] = indexToCoordinate(index);
+        if (canTrigger){
+            let [x, y] = indexToCoordinate(index);
 
-        // checks if previously selected
-        if (enemy.board.recieveAttack(x,y) === 'Error'){
-            return
+            // checks if previously selected
+            if (enemy.board.recieveAttack(x,y) === 'Error'){
+                return
+            }
+            else{
+                enemy.board.recieveAttack(x, y);
+                turnResult(x, y, enemy, square);
+
+                //time delay before playing computer turn
+                setTimeout(() => {
+                    document.dispatchEvent(new Event('enemyTurn'));
+                }, 2000)
+            }   
         }
-        else{
-            enemy.board.recieveAttack(x, y);
-            turnResult(x, y, enemy, square);
-
-            document.dispatchEvent(new Event('enemyTurn'));
-        }  
+        canTrigger = false;
     })
 })
 
 // change later for smarter computer logic
 document.addEventListener('enemyTurn', () => {
-    // Two second delay before turn
-    setTimeout(() => {
         let friendIndex = Math.floor(Math.random() * 100);
         let [x, y] = indexToCoordinate(friendIndex);
 
@@ -69,7 +100,8 @@ document.addEventListener('enemyTurn', () => {
 
         friend.board.recieveAttack(x, y)
         turnResult(x, y, friend, friendSquares[friendIndex]) 
-    }, 2000)
+        
+        canTrigger = true;
 })
 
 function indexToCoordinate (index) {
