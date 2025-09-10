@@ -1,25 +1,24 @@
 import { Player } from './script.js'
-import { Board, GameOver, Form } from './game.js'
+import { Board, GameOver, Form, ShipPlacement } from './game.js'
 
 const container = document.getElementById('container');
+
+/* Page 1: Form to enter player name */
 const form = Form()
 let input = form[0]
-let submitButton = form[1]
-container.appendChild(form)
+let nameSubmit = form[1]
 
-console.log(form)
-console.log(name)
-console.log(submitButton)
+container.appendChild(form)
 
 // Submit with enter
 input.addEventListener('keypress', (event) =>{
     if (event.key === 'Enter'){
-        submitButton.click();
+        nameSubmit.click();
     }
 })
 
 // Attach input to player name
-submitButton.addEventListener('click', () => {
+nameSubmit.addEventListener('click', () => {
     // Rename player
     friend.name = input.value
 
@@ -27,11 +26,17 @@ submitButton.addEventListener('click', () => {
     container.removeChild(form);
 
     // need to add in between page for placing ships
+    container.appendChild(place);
+/*     container.appendChild(friendBoard)
+    container.appendChild(enemyBoard); */
 
-    container.appendChild(friendBoard)
-    container.appendChild(enemyBoard);
 
 })
+
+/* Page 2: Drag and Drop to place friendly ships */
+
+const place = ShipPlacement();
+
 
 // need player made only after first submit button. 
 const friend = new Player(`placeholder`);
