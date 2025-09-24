@@ -87,9 +87,6 @@ function ShipPlacement(){
     function dragStart(e){
         const currentShip = e.target.id;
         e.dataTransfer.setData('text/plain', currentShip);
-        setTimeout(() => {
-            e.target.classList.add('hide');
-        }, 0);
     }
 
     const shipLengths = {carrier: '5', battleship: '4', destroyer: '3', submarine: '3', patrol: '2'}
@@ -110,7 +107,6 @@ function ShipPlacement(){
     function dragLeave(e){
         e.preventDefault();
         e.target.classList.remove('drag-over');
-        e.target.classList.remove('dragged-ship')
     }
 
     function drop(e, index){
@@ -119,21 +115,38 @@ function ShipPlacement(){
         let length = shipLengths[id];
         const draggedShip = document.getElementById(id);
 
-        e.target.appendChild(draggedShip);
 
-        draggedShip.classList.remove('hide');
-
+        // check for overlap or off board
+        for (let i = 1; i < length; i++){
+            let testIndex;
+            if (axis === 'x'){
+                testIndex = index + i
+                if ((testIndex) % 10 === 0 ) return;
+            }
+            if (axis === 'y'){
+                testIndex = index - (10 * i)
+                if ((testIndex) < 0) return;
+            }
+            if (boardChildren[testIndex].classList.contains('dragged-ship') ||
+                boardChildren[index].classList.contains('dragged-ship')){
+                return
+            }
+        }
+        
+        // Add visual for placed ship on dom
         while (length > 0){
             boardChildren[index].classList.add('dragged-ship');
             if (axis === 'x'){
                 index++
             }
-            // double check function direction
             else{
                 index -= 10
             }
             length--
         }
+
+        e.target.appendChild(draggedShip);
+        draggedShip.classList.remove('hide');
     }
 
     const confirmButton = document.createElement('button');

@@ -37,7 +37,6 @@ nameSubmit.addEventListener('click', () => {
 
 const place = ShipPlacement();
 
-
 // need player made only after first submit button. 
 const friend = new Player(`placeholder`);
 friend.board.placeShip(4, 4, 'x', 3);
