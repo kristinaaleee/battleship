@@ -42,3 +42,13 @@
 .block{
     pointer-events: none;
 }
+/* Makes the item fully disappear */
+.hide{
+    display: none;
+}
+.drag-over{
+    border: red 2px dashed;
+}
+.dragged-ship{
+    border: blue 2px solid;
+}
