@@ -89,8 +89,13 @@ function ShipPlacement(){
         e.dataTransfer.setData('text/plain', currentShip);
     }
 
-    const shipLengths = {carrier: '5', battleship: '4', destroyer: '3', submarine: '3', patrol: '2'}
-
+    const shipInfo = {
+        carrier: {length: '5'}, 
+        battleship: {length: '4'},
+        destroyer: {length: '3'},
+        submarine: {length: '3'},
+        patrol: {length: '2'}
+    }
     const boardChildren = board.childNodes
     boardChildren.forEach((square, index) => {
         square.addEventListener('dragover', dragOver);
@@ -112,12 +117,12 @@ function ShipPlacement(){
     function drop(e, index){
         e.target.classList.remove('drag-over');
         const id = e.dataTransfer.getData('text/plain');
-        let length = shipLengths[id];
+        let shipLength = shipInfo[id]['length'];
         const draggedShip = document.getElementById(id);
 
 
         // check for overlap or off board
-        for (let i = 1; i < length; i++){
+        for (let i = 1; i < shipLength; i++){
             let testIndex;
             if (axis === 'x'){
                 testIndex = index + i
@@ -132,9 +137,12 @@ function ShipPlacement(){
                 return
             }
         }
+
+        shipInfo[id]['axis'] = axis;
+        shipInfo[id]['index'] = index;
         
         // Add visual for placed ship on dom
-        while (length > 0){
+        while (shipLength > 0){
             boardChildren[index].classList.add('dragged-ship');
             if (axis === 'x'){
                 index++
@@ -142,7 +150,7 @@ function ShipPlacement(){
             else{
                 index -= 10
             }
-            length--
+            shipLength--
         }
 
         e.target.appendChild(draggedShip);
@@ -156,7 +164,7 @@ function ShipPlacement(){
             alert('Please finish placing ships');
         }
         else{
-            alert('You good to go');
+            document.dispatchEvent(new Event('placeShips'));
         }
     })
     // ship wrapper empty can proceed with submit button
@@ -165,6 +173,6 @@ function ShipPlacement(){
     placementWrapper.appendChild(allShipWrapper);
     placementWrapper.appendChild(confirmButton)
 
-
-    return placementWrapper
+ 
+    return {placementWrapper, shipInfo};
 }

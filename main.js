@@ -26,11 +26,7 @@ nameSubmit.addEventListener('click', () => {
     container.removeChild(form);
 
     // need to add in between page for placing ships
-    container.appendChild(place);
-/*     container.appendChild(friendBoard)
-    container.appendChild(enemyBoard); */
-
-
+    container.appendChild(place.placementWrapper)
 })
 
 /* Page 2: Drag and Drop to place friendly ships */
@@ -39,13 +35,7 @@ const place = ShipPlacement();
 
 // need player made only after first submit button. 
 const friend = new Player(`placeholder`);
-friend.board.placeShip(4, 4, 'x', 3);
-friend.board.placeShip(0, 0, 'y', 5);
-
-// make enemy
 const enemy = new Player('enemy');
-enemy.board.placeShip(1, 1, 'x', 2);
-enemy.board.placeShip(9, 0, 'y', 4);
 
 // initialize friend/enemy board
 const friendBoard = Board();
@@ -53,15 +43,30 @@ friendBoard.classList.add('friendly');
 const enemyBoard = Board();
 enemyBoard.classList.add('enemy');
 
-// build board visual
-const friendSquares = friendBoard.childNodes;
-friend.board.board.forEach((row) => {
-    row.forEach((space) => {
-        if (space.ship === true){
-            let index = (9 - space.y) * 10 + space.x
-            friendSquares[index].classList.add('ship')
-        }
+document.addEventListener('placeShips', () => {
+    const ships = place.shipInfo
+    for (const type in ships) {
+        let [x, y] = indexToCoordinate(ships[type]['index'])
+        friend.board.placeShip(x, y, ships[type]['axis'], Number(ships[type]['length']))
+    }
+
+    // Need to add randomization for enemy
+    enemy.board.placeShip(1, 1, 'x', 2);
+    enemy.board.placeShip(9, 0, 'y', 4);
+
+    // build board visual
+    friend.board.board.forEach((row) => {
+        row.forEach((space) => {
+            if (space.ship === true){
+                let index = (9 - space.y) * 10 + space.x
+                friendBoard.childNodes[index].classList.add('ship')
+            }
+        })
     })
+
+    container.removeChild(place.placementWrapper)
+    container.appendChild(friendBoard)
+    container.appendChild(enemyBoard)
 })
 
 //adds delay between turns
@@ -103,7 +108,7 @@ document.addEventListener('enemyTurn', () => {
         }
 
         friend.board.recieveAttack(x, y)
-        turnResult(x, y, friend, friendSquares[friendIndex]) 
+        turnResult(x, y, friend, friendBoard.childNodes[friendIndex]) 
         
         canTrigger = true;
 })
