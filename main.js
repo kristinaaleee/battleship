@@ -50,10 +50,22 @@ document.addEventListener('placeShips', () => {
         friend.board.placeShip(x, y, ships[type]['axis'], Number(ships[type]['length']))
     }
 
-    // Need to add randomization for enemy
-    enemy.board.placeShip(1, 1, 'x', 2);
-    enemy.board.placeShip(9, 0, 'y', 4);
+    let enemyShips = [5, 4, 4, 3, 2];
 
+    while (enemyShips.length != 0){
+        let randomAxis = Math.random() < 0.5 ? 'x' : 'y';
+        let randomX = Math.floor(Math.random() * 10)
+        let randomY = Math.floor(Math.random() * 10)
+        let shipLength = enemyShips.shift();
+
+        while (enemy.board.placeShip(randomX, randomY, randomAxis, shipLength) === 'Error'){
+            randomAxis = Math.random() < 0.5 ? 'x' : 'y';
+            randomX = Math.floor(Math.random() * 10)
+            randomY = Math.floor(Math.random() * 10)
+        }
+        enemy.board.placeShip(randomX, randomY, randomAxis, shipLength)
+    }
+ 
     // build board visual
     friend.board.board.forEach((row) => {
         row.forEach((space) => {
@@ -63,6 +75,17 @@ document.addEventListener('placeShips', () => {
             }
         })
     })
+
+    // build board visual
+    enemy.board.board.forEach((row) => {
+        row.forEach((space) => {
+            if (space.ship === true){
+                let index = (9 - space.y) * 10 + space.x
+                enemyBoard.childNodes[index].classList.add('ship')
+            }
+        })
+    })
+
 
     container.removeChild(place.placementWrapper)
     container.appendChild(friendBoard)

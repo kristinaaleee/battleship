@@ -31,12 +31,12 @@ class Gameboard {
     placeShip(x, y, axis, length){
         let space = this.getSpace(x, y)
 
-        // // Square already occupied
-        // if (space.ship === true) return 'Error: Square already has a ship'
+        // Square already occupied
+        if (space.ship === true) return 'Error'
         
         // Ship would go of grid if placed here
-        if (axis === 'y' && ((y + length) > 9)) return 'Error: Ship goes out of coordinates'
-        if (axis === 'x' && ((x + length) > 9)) return 'Error: Ship goes out of coordinates'
+        if (axis === 'y' && ((y + length) > 9)) return 'Error'
+        if (axis === 'x' && ((x + length) > 9)) return 'Error'
 
         // Same ship object in each square
         let shipObject = new Ship(length);
