@@ -29,25 +29,32 @@ class Gameboard {
     }
 
     placeShip(x, y, axis, length){
-        let space = this.getSpace(x, y)
-
-        // Square already occupied
-        if (space.ship === true) return 'Error'
-        
         // Ship would go of grid if placed here
         if (axis === 'y' && ((y + length) > 9)) return 'Error'
         if (axis === 'x' && ((x + length) > 9)) return 'Error'
 
+        // Squares already occupied
+        let testX = x;
+        let testY = y;
+        for (let test = 0; test < length; test++){
+            let testSpace = this.getSpace(testX, testY);
+            if (testSpace.ship === true){
+                return 'Error'
+            }
+            axis == 'y' ? testY += 1 : testX += 1;
+        }
+
         // Same ship object in each square
         let shipObject = new Ship(length);
-
+        
         for (let i = 0; i < length; i++){
-            space = this.getSpace(x, y);
+            let space = this.getSpace(x, y);
             space.ship = true;
             space.occupant = shipObject;
             axis == 'y' ? y += 1 : x += 1;
         }
     }
+    
     recieveAttack(x, y){
         let space = this.getSpace(x, y);
 

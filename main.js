@@ -50,7 +50,7 @@ document.addEventListener('placeShips', () => {
         friend.board.placeShip(x, y, ships[type]['axis'], Number(ships[type]['length']))
     }
 
-    let enemyShips = [5, 4, 4, 3, 2];
+    let enemyShips = [5, 4, 3, 3, 2];
 
     while (enemyShips.length != 0){
         let randomAxis = Math.random() < 0.5 ? 'x' : 'y';
@@ -65,7 +65,7 @@ document.addEventListener('placeShips', () => {
         }
         enemy.board.placeShip(randomX, randomY, randomAxis, shipLength)
     }
- 
+    console.log(enemy.board);
     // build board visual
     friend.board.board.forEach((row) => {
         row.forEach((space) => {
