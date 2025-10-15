@@ -35,8 +35,19 @@ function Board(){
 function GameOver(){
     const overWrapper = document.createElement('div');
     overWrapper.setAttribute('id', 'game-over');
-    overWrapper.innerHTML = 'Game Over'
 
+    const overText = document.createElement('p')
+    overText.textContent = 'Game Over'
+
+    const resetButton = document.createElement('button');
+    resetButton.textContent = 'Play Again?'
+
+    resetButton.addEventListener('click', () => {
+        window.location.reload();
+    })
+
+    overWrapper.appendChild(overText);
+    overWrapper.appendChild(resetButton);
     // button to reset game?
     return overWrapper;
 }

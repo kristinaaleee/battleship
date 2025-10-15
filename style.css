@@ -1,3 +1,33 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+} 
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+input, button, textarea, select {
+    font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+p {
+    text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+#root, #__next {
+    isolation: isolate;
+}
+
 #container{
     display: flex;
     flex-direction: column;
@@ -45,16 +75,23 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 25%;
-    width: 50%;
-    padding-top: 20%;
+    height: fit-content;
+    padding: 5vh;
+    width: 50vw;
 
     border: black solid 2px;
     background-color: white;
-    padding-top: 10%;
-    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-over > p {
     font-size: 2rem;
 }
+
 .block{
     pointer-events: none;
 }

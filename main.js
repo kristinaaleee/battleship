@@ -114,7 +114,6 @@ document.addEventListener('placeShips', () => {
         })
     })
 
-
     container.removeChild(place.placementWrapper);
     container.appendChild(gameWrapper);
     container.appendChild(turnWrapper);
@@ -184,7 +183,7 @@ function turnResult (x, y, player, space) {
     // Need to check every hit - maybe don't return
     if (player.board.allSunk() === true){
         // pop-up
-        const gameOverScreen = GameOver()
+        const gameOverScreen = GameOver();
         container.appendChild(gameOverScreen);
 
         friendBoard.classList.add('block')
