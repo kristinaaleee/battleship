@@ -37,12 +37,39 @@ const place = ShipPlacement();
 const friend = new Player(`placeholder`);
 const enemy = new Player('enemy');
 
-// initialize friend/enemy board
+/* Page 3: Official GameBoard  */
+
+// Initialize friend
+const gameWrapper = document.createElement('div');
+gameWrapper.setAttribute('id', 'game-wrapper');
+
+const friendWrapper = document.createElement('div');
+const friendTitle = document.createElement('h3');
+friendTitle.textContent = 'Friendly Waters';
 const friendBoard = Board();
 friendBoard.classList.add('friendly');
+
+friendWrapper.appendChild(friendTitle);
+friendWrapper.appendChild(friendBoard);
+
+// Initialize enemy
+const enemyWrapper = document.createElement('div')
+const enemyTitle = document.createElement('h3')
+enemyTitle.textContent = 'Enemy Waters'
 const enemyBoard = Board();
 enemyBoard.classList.add('enemy');
 
+enemyWrapper.appendChild(enemyTitle);
+enemyWrapper.appendChild(enemyBoard);
+
+gameWrapper.appendChild(friendWrapper);
+gameWrapper.appendChild(enemyWrapper);
+
+const turnWrapper = document.createElement('div');
+turnWrapper.setAttribute('id', 'turn-text');
+turnWrapper.innerHTML = 'Your turn..'
+
+// Activate once confirm on Page 2 is pressed
 document.addEventListener('placeShips', () => {
     const ships = place.shipInfo
     for (const type in ships) {
@@ -81,15 +108,16 @@ document.addEventListener('placeShips', () => {
         row.forEach((space) => {
             if (space.ship === true){
                 let index = (9 - space.y) * 10 + space.x
+                // take out to make enemy board not visible 
                 enemyBoard.childNodes[index].classList.add('ship')
             }
         })
     })
 
 
-    container.removeChild(place.placementWrapper)
-    container.appendChild(friendBoard)
-    container.appendChild(enemyBoard)
+    container.removeChild(place.placementWrapper);
+    container.appendChild(gameWrapper);
+    container.appendChild(turnWrapper);
 })
 
 //adds delay between turns
@@ -107,13 +135,17 @@ enemySquares.forEach((square, index) => {
             }
             else{
                 enemy.board.recieveAttack(x, y);
-                turnResult(x, y, enemy, square);
-
+                let result = turnResult(x, y, enemy, square);
+                turnWrapper.textContent = `The shot is a ${result} on the enemy's ship.`
+                setTimeout(() => {
+                turnWrapper.textContent = 'Enemy turn..'  
+                }, 2000)
+                
                 //time delay before playing computer turn
                 setTimeout(() => {
                     document.dispatchEvent(new Event('enemyTurn'));
-                }, 2000)
-            }   
+                }, 3000)
+            }
         }
         canTrigger = false;
     })
@@ -130,10 +162,16 @@ document.addEventListener('enemyTurn', () => {
             ([x, y]= indexToCoordinate(friendIndex));
         }
 
-        friend.board.recieveAttack(x, y)
-        turnResult(x, y, friend, friendBoard.childNodes[friendIndex]) 
+        setTimeout(() => {
+            friend.board.recieveAttack(x, y)
+            let result = turnResult(x, y, friend, friendBoard.childNodes[friendIndex]) 
+            turnWrapper.textContent = `The enemy's shot is a ${result} on the your ship.`
+        })
         
-        canTrigger = true;
+        setTimeout(() => {
+            turnWrapper.textContent = 'Your turn..'
+            canTrigger = true;
+        }, 2000)
 })
 
 function indexToCoordinate (index) {
@@ -143,12 +181,7 @@ function indexToCoordinate (index) {
 }
 
 function turnResult (x, y, player, space) {
-    if (player.board.getSpace(x, y).occupant != null){
-        space.classList.add('hit');
-    }
-    else{
-        space.classList.add('miss');
-    }
+    // Need to check every hit - maybe don't return
     if (player.board.allSunk() === true){
         // pop-up
         const gameOverScreen = GameOver()
@@ -158,4 +191,14 @@ function turnResult (x, y, player, space) {
         enemyBoard.classList.add('block')
         // darken background when game over
     }
+    if (player.board.getSpace(x, y).occupant != null){
+        space.classList.add('hit');
+        return 'hit'
+        // add turnWrapper.text content in here
+    }
+    else{
+        space.classList.add('miss');
+        return 'miss'
+    }
+
 }
