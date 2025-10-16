@@ -6,6 +6,8 @@ export { Board, GameOver, Form, ShipPlacement };
 function Form(){
     const formWrapper = document.createElement('form')
     formWrapper.setAttribute ('onSubmit', 'return false')
+    const formTitle = document.createElement('div')
+    formTitle.textContent = 'Player Name:'
     const nameInput = document.createElement('input')
     nameInput.placeholder = 'Please enter name'
     nameInput.required = true
@@ -14,8 +16,9 @@ function Form(){
     submitButton.textContent = 'Submit'
     submitButton.setAttribute('type', 'button')
     
-    formWrapper.appendChild(nameInput)
-    formWrapper.appendChild(submitButton)
+    formWrapper.appendChild(formTitle);
+    formWrapper.appendChild(nameInput);
+    formWrapper.appendChild(submitButton);
     return formWrapper;
 }
 
@@ -163,7 +166,6 @@ function ShipPlacement(){
             }
             shipLength--
         }
-
         e.target.appendChild(draggedShip);
         draggedShip.classList.remove('hide');
     }
@@ -178,12 +180,10 @@ function ShipPlacement(){
             document.dispatchEvent(new Event('placeShips'));
         }
     })
-    // ship wrapper empty can proceed with submit button
     placementWrapper.appendChild(axisButton)
     placementWrapper.appendChild(board);
     placementWrapper.appendChild(allShipWrapper);
     placementWrapper.appendChild(confirmButton)
 
- 
     return {placementWrapper, shipInfo};
 }

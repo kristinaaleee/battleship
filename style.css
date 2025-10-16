@@ -31,9 +31,6 @@ h1, h2, h3, h4, h5, h6 {
 :root{
     --red: #E4345B;
     --lightblue: #B8D2E0;
-    /* --blue: #5183A4; */
-    /* --blue: #008BA3; */
-    /* --blue: #00798F; */
     --blue: #00687A;
     --darkaccent: #2F4A60;
     --base: #4A7396;
@@ -44,8 +41,7 @@ body{
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
-    font-variation-settings:
-      "wdth" 100;
+    font-variation-settings: "wdth" 100;
 
     background-color: var(--base);
 }
@@ -61,16 +57,13 @@ body{
     flex-direction: column;
     align-items: center;
 }
-
 #game-wrapper{
     display: flex;
     justify-content: space-between;
 
     width: 60%;
-    /* bottom-padding for text */
     padding-bottom: 2em;
 }
-
 #turn-text{
     border: var(--darkaccent) solid 3px;
     border-radius: 1em;
@@ -86,6 +79,7 @@ body{
 
     border: black solid 2px;
     background-color: var(--lightblue);
+    position: relative;
 }
 #board-wrapper{
     width: fit-content;
@@ -94,15 +88,34 @@ body{
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
 }
-.miss{
-    background-color: var(--blue);
-}
+
 .ship{
     background-color: black;
 }
-.hit{
-    background-color: var(--red);
+
+.miss:before, .miss:after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background-image: radial-gradient(circle at center, var(--blue) 6px, transparent 5px);
+    background-position: center;
+    background-size: 30px 30px;
 }
+
+/* before and after? */
+.hit:before, .hit:after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background-image: radial-gradient(circle at center, var(--red) 6px, transparent 5px);
+    background-position: center;
+    background-size: 30px 30px;
+}
+
 #game-over{
     position: fixed;
     top: 50%;
