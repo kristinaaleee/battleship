@@ -27,7 +27,35 @@ h1, h2, h3, h4, h5, h6 {
 #root, #__next {
     isolation: isolate;
 }
+/* color/text*/
+:root{
+    --red: #E4345B;
+    --lightblue: #B8D2E0;
+    /* --blue: #5183A4; */
+    /* --blue: #008BA3; */
+    /* --blue: #00798F; */
+    --blue: #00687A;
+    --darkaccent: #2F4A60;
+    --base: #4A7396;
+    --lightaccent: #769CBC;
+}
+body{
+    font-family: "Tektur", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
 
+    background-color: var(--base);
+}
+.bold{
+    font-weight: 700;
+}
+
+#header{
+    background-color: var(--darkaccent);
+}
 #container{
     display: flex;
     flex-direction: column;
@@ -44,15 +72,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #turn-text{
-    border: black solid 2px;
+    border: var(--darkaccent) solid 3px;
+    border-radius: 1em;
     padding: 1em;
     width: 60%;
+
+    background-color: var(--lightaccent);
 }
 .square{
     width: 30px;
     height: 30px;
-    border: black solid 2px;
     cursor: pointer;
+
+    border: black solid 2px;
+    background-color: var(--lightblue);
 }
 #board-wrapper{
     width: fit-content;
@@ -62,13 +95,13 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-rows: repeat(10, 1fr);
 }
 .miss{
-    background-color: blue;
+    background-color: var(--blue);
 }
 .ship{
     background-color: black;
 }
 .hit{
-    background-color: red;
+    background-color: var(--red);
 }
 #game-over{
     position: fixed;
@@ -79,8 +112,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 5vh;
     width: 50vw;
 
-    border: black solid 2px;
-    background-color: white;
+    border: var(--lightaccent) solid 2px;
 
     display: flex;
     flex-direction: column;
