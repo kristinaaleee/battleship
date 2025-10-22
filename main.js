@@ -66,8 +66,12 @@ gameWrapper.appendChild(friendWrapper);
 gameWrapper.appendChild(enemyWrapper);
 
 const turnWrapper = document.createElement('div');
-turnWrapper.setAttribute('id', 'turn-text');
-turnWrapper.innerHTML = 'Your turn..'
+turnWrapper.setAttribute('id', 'turn-wrapper');
+const turnText = document.createElement('p');
+turnText.classList.add('typewrite');
+turnText.innerHTML = 'Your turn..'
+
+turnWrapper.appendChild(turnText);
 
 // Activate once confirm on Page 2 is pressed
 document.addEventListener('placeShips', () => {
@@ -135,15 +139,18 @@ enemySquares.forEach((square, index) => {
             else{
                 enemy.board.recieveAttack(x, y);
                 let result = turnResult(x, y, enemy, square);
-                turnWrapper.textContent = `The shot is a ${result} on the enemy's ship.`
+                
+                animationToggle();
+                turnText.textContent = `The shot is a ${result} on the enemy's ship.`
                 setTimeout(() => {
-                turnWrapper.textContent = 'Enemy turn..'  
-                }, 2000)
+                animationToggle();
+                turnText.textContent = 'Enemy turn..'  
+                }, 4000)
                 
                 //time delay before playing computer turn
                 setTimeout(() => {
                     document.dispatchEvent(new Event('enemyTurn'));
-                }, 3000)
+                }, 3500)
             }
         }
         canTrigger = false;
@@ -164,13 +171,15 @@ document.addEventListener('enemyTurn', () => {
         setTimeout(() => {
             friend.board.recieveAttack(x, y)
             let result = turnResult(x, y, friend, friendBoard.childNodes[friendIndex]) 
-            turnWrapper.textContent = `The enemy's shot is a ${result} on the your ship.`
-        })
+            animationToggle();
+            turnText.textContent = `The enemy's shot is a ${result} on the your ship.`
+        }, 3500)
         
         setTimeout(() => {
-            turnWrapper.textContent = 'Your turn..'
+            animationToggle();
+            turnText.textContent = 'Your turn..'
             canTrigger = true;
-        }, 2000)
+        }, 7000)
 })
 
 function indexToCoordinate (index) {
@@ -200,4 +209,9 @@ function turnResult (x, y, player, space) {
         return 'miss'
     }
 
+}
+function animationToggle (){
+    turnText.classList.remove('typewrite');
+    void turnText.offsetWidth;
+    turnText.classList.add('typewrite');
 }

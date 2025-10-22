@@ -35,6 +35,7 @@ h1, h2, h3, h4, h5, h6 {
     --darkaccent: #2F4A60;
     --base: #4A7396;
     --lightaccent: #769CBC;
+
 }
 body{
     font-family: "Tektur", sans-serif;
@@ -64,7 +65,7 @@ body{
     width: 60%;
     padding-bottom: 2em;
 }
-#turn-text{
+#turn-wrapper{
     border: var(--darkaccent) solid 3px;
     border-radius: 1em;
     padding: 1em;
@@ -72,6 +73,28 @@ body{
 
     background-color: var(--lightaccent);
 }
+.typewrite{
+    width: fit-content;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid orange; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin-left: 0;
+    margin-right: auto;
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: 
+      typing 3.5s steps(40, end),
+      blink-caret .75s step-end infinite;
+}
+/* applies to width of parent */
+@keyframes typing {
+    from { max-width: 0 }
+    to { max-width: 100%}
+}
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+}
+
 .square{
     width: 30px;
     height: 30px;
@@ -136,7 +159,6 @@ body{
 #game-over > p {
     font-size: 2rem;
 }
-
 .block{
     pointer-events: none;
 }
@@ -144,10 +166,16 @@ body{
 .hide{
     display: none;
 }
-
 .drag-over{
     border: red 2px dashed;
 }
 .dragged-ship{
     border: blue 2px solid;
+}
+/* text on top of board */
+.ship-wrapper{
+    width: fit-content;
+
+    position: relative;
+    z-index: 1;
 }
