@@ -4,17 +4,19 @@ export { Board, GameOver, Form, ShipPlacement };
 // page for ship placement
 
 function Form(){
-    const formWrapper = document.createElement('form')
-    formWrapper.setAttribute ('onSubmit', 'return false')
-    const formTitle = document.createElement('div')
-    formTitle.textContent = 'Player Name:'
-    const nameInput = document.createElement('input')
-    nameInput.placeholder = 'Please enter name'
-    nameInput.required = true
+    const formWrapper = document.createElement('form');
+    formWrapper.setAttribute ('onSubmit', 'return false');
+    const formTitle = document.createElement('div');
+    formTitle.textContent = 'Player Name:';
+    formTitle.classList.add('bold');
+    const nameInput = document.createElement('input');
+    nameInput.placeholder = 'Please enter name';
+    nameInput.required = true;
 
-    const submitButton = document.createElement('button')
-    submitButton.textContent = 'Submit'
-    submitButton.setAttribute('type', 'button')
+    const submitButton = document.createElement('button');
+    submitButton.textContent = 'Submit';
+    submitButton.setAttribute('type', 'button');
+    // submitButton.classList.add('bold'); 
     
     formWrapper.appendChild(formTitle);
     formWrapper.appendChild(nameInput);

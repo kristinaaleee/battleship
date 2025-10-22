@@ -45,6 +45,7 @@ body{
     font-variation-settings: "wdth" 100;
 
     background-color: var(--base);
+    height: 100vh;
 }
 .bold{
     font-weight: 700;
@@ -52,12 +53,59 @@ body{
 
 #header{
     background-color: var(--darkaccent);
+    font-size: 2em;
+    color: white;
+    padding: .5em ;
+    text-align: center;
 }
 #container{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: calc(100% - 80px);
 }
+/* form styling */
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8em;
+
+    background-color: var(--darkaccent);
+    padding: 3em;
+    border-radius: 1em;
+    box-shadow: var(--darkaccent) 0px 7px 29px 0px;
+}
+form > div{
+    font-size: 1.5em;
+    color: white;
+}
+input{
+    border: none;
+    border-radius: 2em;
+    padding: .5em;
+    padding-left: 1em
+}
+input:focus{
+    outline: 2px solid var(--darkaccent);
+    
+}
+form > button{
+    cursor: pointer;
+    padding: .5em 1em;
+    border-radius: 2em;
+    background-color: var(--lightaccent);
+    border: 2px solid var(--lightaccent);
+    color: black;
+}
+form > button:hover{
+    background-color: var(--darkaccent);
+    border: 2px solid var(--lightaccent);
+    color: white;
+}
+
+
 #game-wrapper{
     display: flex;
     justify-content: space-between;
