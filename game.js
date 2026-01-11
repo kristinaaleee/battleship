@@ -87,13 +87,16 @@ function ShipPlacement(){
         shipDiv.setAttribute('draggable', true);
         shipDiv.classList.add('ship-wrapper')
 
-        const shipName = document.createElement('h4');
-        shipName.textContent = ship;
+        // const shipName = document.createElement('h4');
+        // shipName.textContent = ship;
 
-        // shipImg = document.createElement('img');
-        // shipImg.setAttribute('src', `ships/${ship}.png`);
+        const shipImg = document.createElement('img');
+        // let imgWidth = Number(shipInfo[ship]['length']) * 30
+        shipImg.setAttribute('src', `img/${ship}.svg`);
+        // shipImg.style.width = `${imgWidth}px`
 
-        shipDiv.appendChild(shipName);
+        // shipDiv.appendChild(shipName);
+        shipDiv.appendChild(shipImg)
         allShipWrapper.appendChild(shipDiv);
 
         shipDiv.addEventListener('dragstart', dragStart);
