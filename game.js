@@ -62,51 +62,26 @@ function ShipPlacement(){
     placementWrapper.setAttribute('id', 'placement-wrapper');
 
     const axisButton = document.createElement('button');
-    axisButton.textContent = 'X Axis'
-    let axis = 'x'
+    axisButton.textContent = 'X Axis';
+    let axis = 'x';
+    let transform;;
+    addEventListener
     axisButton.addEventListener('click', () => {
         if(axisButton.textContent === 'X Axis'){
-            axisButton.textContent = 'Y Axis'
-            axis = 'y'
+            axisButton.textContent = 'Y Axis';
+            axis = 'y';
+            transform = 'translateX(27px) rotate(-90deg)';
         }
         else{
-            axisButton.textContent = 'X Axis'
-            axis = 'x'
+            axisButton.textContent = 'X Axis';
+            axis = 'x';
+            transform = 'none';
         }
-    })
+    });
 
     const allShipWrapper = document.createElement('div');
     allShipWrapper.setAttribute('id', 'shipWrapper')
     const board = Board();
-
-    const ships = ['carrier', 'battleship', 'destroyer', 'submarine', 'patrol'];
-    ships.forEach(ship => {
-        // Create Dom
-        const shipDiv = document.createElement('div');
-        shipDiv.setAttribute('id', ship);
-        shipDiv.setAttribute('draggable', true);
-        shipDiv.classList.add('ship-wrapper')
-
-        // const shipName = document.createElement('h4');
-        // shipName.textContent = ship;
-
-        const shipImg = document.createElement('img');
-        // let imgWidth = Number(shipInfo[ship]['length']) * 30
-        shipImg.setAttribute('src', `img/${ship}.svg`);
-        // shipImg.style.width = `${imgWidth}px`
-
-        // shipDiv.appendChild(shipName);
-        shipDiv.appendChild(shipImg)
-        allShipWrapper.appendChild(shipDiv);
-
-        shipDiv.addEventListener('dragstart', dragStart);
-
-    })
-
-    function dragStart(e){
-        const currentShip = e.target.id;
-        e.dataTransfer.setData('text/plain', currentShip);
-    }
 
     const shipInfo = {
         carrier: {length: '5'}, 
@@ -115,6 +90,35 @@ function ShipPlacement(){
         submarine: {length: '3'},
         patrol: {length: '2'}
     }
+
+    const ships = ['carrier', 'battleship', 'destroyer', 'submarine', 'patrol'];
+    
+    ships.forEach(ship => {
+        // Create Dom
+        const shipDiv = document.createElement('div');
+        shipDiv.setAttribute('id', ship);
+        shipDiv.setAttribute('draggable', true);
+        shipDiv.classList.add('ship-wrapper')
+
+        const shipImg = document.createElement('img');
+        shipImg.setAttribute('draggable', false);
+        shipImg.setAttribute('src', `img/${ship}.svg`);
+
+        let imgWidth = Number(shipInfo[ship]['length']) * 30
+        shipDiv.style.width = `${imgWidth}px`
+
+        shipDiv.appendChild(shipImg)
+        allShipWrapper.appendChild(shipDiv);
+
+        shipDiv.addEventListener('dragstart', dragStart);
+    })
+
+    function dragStart(e){
+        console.log(e)
+        const currentShip = e.target.id;
+        e.dataTransfer.setData('text/plain', currentShip);
+    }
+
     const boardChildren = board.childNodes
     boardChildren.forEach((square, index) => {
         square.addEventListener('dragover', dragOver);
@@ -138,7 +142,6 @@ function ShipPlacement(){
         const id = e.dataTransfer.getData('text/plain');
         let shipLength = shipInfo[id]['length'];
         const draggedShip = document.getElementById(id);
-
 
         // check for overlap or off board
         for (let i = 1; i < shipLength; i++){
@@ -171,6 +174,8 @@ function ShipPlacement(){
             }
             shipLength--
         }
+        draggedShip.style.transformOrigin = 'left bottom'
+        draggedShip.style.transform = transform;
         e.target.appendChild(draggedShip);
         draggedShip.classList.remove('hide');
     }

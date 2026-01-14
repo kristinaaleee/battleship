@@ -27,6 +27,7 @@ h1, h2, h3, h4, h5, h6 {
 #root, #__next {
     isolation: isolate;
 }
+
 /* color/text*/
 :root{
     --red: #E4345B;
@@ -35,6 +36,7 @@ h1, h2, h3, h4, h5, h6 {
     --darkaccent: #2F4A60;
     --base: #4A7396;
     --lightaccent: #769CBC;
+    --transparent-base: rgba(74, 115, 150, .5)
 
 }
 body{
@@ -50,7 +52,6 @@ body{
 .bold{
     font-weight: 700;
 }
-
 #header{
     background-color: var(--darkaccent);
     font-size: 2em;
@@ -65,6 +66,7 @@ body{
     align-items: center;
     height: calc(100% - 80px);
 }
+
 /* form styling */
 form{
     display: flex;
@@ -105,7 +107,56 @@ form > button:hover{
     color: white;
 }
 
+/* placement and board styling */
+.square{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    overflow: visible;
 
+    border: black solid 2px;
+    background-color: var(--lightblue);
+    position: relative;
+}
+#board-wrapper{
+    width: fit-content;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+img{
+    cursor: pointer;
+    height: 26px;
+}
+
+.ship-wrapper{
+    background-color: var(--lightaccent);
+
+    border-radius: 2px;
+    outline: solid 2px var(--darkaccent);
+    width: fit-content;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+.block{
+    pointer-events: none;
+}
+.hide{
+    /* Makes the item fully disappear */
+    display: none;
+}
+.drag-over{
+    border: red 2px dashed;
+}
+
+
+
+/* game styling */
 #game-wrapper{
     display: flex;
     justify-content: space-between;
@@ -121,13 +172,32 @@ form > button:hover{
 
     background-color: var(--lightaccent);
 }
+.ship{
+    background-color: black;
+}
+.miss:before, .miss:after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
 
-img{
-    cursor: pointer;
-    height: 30px;
-    width: auto
+    background-image: radial-gradient(circle at center, var(--blue) 6px, transparent 5px);
+    background-position: center;
+    background-size: 30px 30px;
+}
+.hit:before, .hit:after{
+    /* before and after? */
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background-image: radial-gradient(circle at center, var(--red) 6px, transparent 5px);
+    background-position: center;
+    background-size: 30px 30px;
 }
 
+/* typewrite animation */
 .typewrite{
     width: fit-content;
     overflow: hidden; /* Ensures the content is not revealed until the animation */
@@ -140,9 +210,8 @@ img{
       typing 3.5s steps(40, end),
       blink-caret .75s step-end infinite;
 }
-/* applies to width of parent */
 @keyframes typing {
-    from { max-width: 0 }
+    from { max-width: 0 }/* applies to width of parent */
     to { max-width: 100%}
 }
 @keyframes blink-caret {
@@ -150,50 +219,7 @@ img{
     50% { border-color: orange; }
 }
 
-.square{
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-
-    border: black solid 2px;
-    background-color: var(--lightblue);
-    position: relative;
-}
-#board-wrapper{
-    width: fit-content;
-    display: grid;
-    gap: 1px;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-}
-
-.ship{
-    background-color: black;
-}
-
-.miss:before, .miss:after{
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-
-    background-image: radial-gradient(circle at center, var(--blue) 6px, transparent 5px);
-    background-position: center;
-    background-size: 30px 30px;
-}
-
-/* before and after? */
-.hit:before, .hit:after{
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-
-    background-image: radial-gradient(circle at center, var(--red) 6px, transparent 5px);
-    background-position: center;
-    background-size: 30px 30px;
-}
-
+/* game-over styling */
 #game-over{
     position: fixed;
     top: 50%;
@@ -210,27 +236,6 @@ img{
     align-items: center;
     justify-content: center;
 }
-
 #game-over > p {
     font-size: 2rem;
-}
-.block{
-    pointer-events: none;
-}
-/* Makes the item fully disappear */
-.hide{
-    display: none;
-}
-.drag-over{
-    border: red 2px dashed;
-}
-.dragged-ship{
-    border: blue 2px solid;
-}
-/* text on top of board */
-.ship-wrapper{
-    width: fit-content;
-
-    position: relative;
-    z-index: 1;
 }
